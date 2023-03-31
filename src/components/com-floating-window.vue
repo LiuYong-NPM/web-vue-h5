@@ -63,6 +63,11 @@ export default {
         whetherToAllowMovement: {
             type: Boolean,
             default: true
+        },
+        // 挂载节点
+        getContainer: {
+            type: String,
+            default: 'body'
         }
     },
     data() {
@@ -70,24 +75,32 @@ export default {
             clientWidth: 0, // 屏幕可见宽度
             clientHeight: 0, // 屏幕可见高度
             left: 0, // 定位 left
-            top: 0 // 定位 top
+            top: 0, // 定位 top
+            getContainerNode: null // 挂载节点
         }
     },
-    created() {
+    mounted() {
         // 数据初始化
         this.initData();
-    },
-    mounted() {
         // 悬浮窗拖拽
         if (this.whetherToAllowMovement) this.floatingWindowDrag();
     },
     methods: {
         // 数据初始化
         initData() {
-            this.clientWidth = document.documentElement.clientWidth;
-            this.clientHeight = document.documentElement.clientHeight;
+            // 获取挂载节点
+            const getContainerNode = document.querySelector(this.getContainer);
+
+            this.getContainerNode = getContainerNode;
+
+            // 获取挂载节点的可见宽度&可见高度
+            this.clientWidth = getContainerNode.clientWidth;
+            this.clientHeight = getContainerNode.clientHeight;
+
+            // 悬浮窗定位
             this.left = this.clientWidth - this.itemWidth - this.gapWidth;
             this.top = this.clientHeight * this.coefficientHeight;
+
             // 避免悬浮窗超出屏幕
             const bottom = this.clientHeight - this.itemHeight - this.gapWidth;
             if (this.top >= bottom) this.top = bottom;
@@ -156,8 +169,8 @@ export default {
             let top = this.top;
             if (window.navigator.userAgent.indexOf('Windows') > -1) {
                 if (e.buttons === 1) {
-                    left = e.clientX - this.itemWidth / 2;
-                    top = e.clientY - this.itemHeight / 2;
+                    left = e.clientX - this.getContainerNode.offsetLeft - this.itemWidth / 2;
+                    top = e.clientY - this.getContainerNode.offsetTop - this.itemHeight / 2;
                 } else {
                     return;
                 }
@@ -165,8 +178,8 @@ export default {
                 // 元素只能x轴或者y轴单一方向移动，e.targetTouches记录移动的坐标
                 if (e.targetTouches.length === 1) {
                     let touch = e.targetTouches[0];
-                    left = touch.clientX - this.itemWidth / 2;
-                    top = touch.clientY - this.itemHeight / 2;
+                    left = touch.clientX - this.getContainerNode.offsetLeft - this.itemWidth / 2;
+                    top = touch.clientY - this.getContainerNode.offsetTop - this.itemHeight / 2;
                 } else {
                     return;
                 }
@@ -255,7 +268,7 @@ export default {
 
 <style lang="less" scoped>
 .com-floating-window {
-    position: fixed;
+    position: relative;
     background-color: #fff;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
     color: #666666;

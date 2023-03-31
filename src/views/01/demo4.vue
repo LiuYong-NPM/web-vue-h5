@@ -2,13 +2,22 @@
     <div class="demo4">
         <van-nav-bar title="悬浮窗" left-text="返回" fixed left-arrow @click-left="onClickLeft" />
 
-        <com-floating-window 
+        <com-floating-window
+            class="float-window"
             :item-width="200"
             :item-height="200"
             border-radius="4px"
             :whether-welt-is-allowed="false"
         >
-            1111111111111
+            <com-floating-window
+                :item-width="50"
+                :item-height="50"
+                border-radius="4px"
+                :whether-welt-is-allowed="false"
+                get-container=".float-window"
+            >
+                1111111111111
+            </com-floating-window>
         </com-floating-window>
     </div>
 </template>
