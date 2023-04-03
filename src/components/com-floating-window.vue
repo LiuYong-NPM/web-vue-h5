@@ -13,7 +13,10 @@
             'height': itemHeight + 'px', 
             'left': left + 'px', 
             'top': top + 'px',
-            'border-radius': borderRadius
+            'border-radius': borderRadius,
+            'z-index': zIndex,
+            'background-color': backgroundColor,
+            'position': position
         }"
     >
         <slot name="default"></slot>
@@ -68,6 +71,21 @@ export default {
         getContainer: {
             type: String,
             default: 'body'
+        },
+        // 挂载节点
+        zIndex: {
+            type: Number,
+            default: 99
+        },
+        // 背景颜色
+        backgroundColor: {
+            type: String,
+            default: '#fff'
+        },
+        // 定位
+        position: {
+            type: String,
+            default: 'fixed'
         }
     },
     data() {
@@ -76,7 +94,8 @@ export default {
             clientHeight: 0, // 屏幕可见高度
             left: 0, // 定位 left
             top: 0, // 定位 top
-            getContainerNode: null // 挂载节点
+            getContainerNode: null, // 挂载节点
+            isMove: false
         }
     },
     mounted() {
@@ -113,13 +132,7 @@ export default {
                 if (window.navigator.userAgent.indexOf('Windows') > -1) {
                     let _that = this;
                     floatingWindow.onmousedown = function(e) {
-                        // 禁止冒泡
-                        e.stopPropagation();
-                        // 组织默认事件
-                        e.preventDefault();
-
-                        // 执行父组件自定义事件
-                        _that.$emit('touchstart');
+                        _that.touchStartFunc.call(_that, e);
 
                         document.onmousemove = function(e) {
                             // 禁止冒泡
@@ -134,17 +147,7 @@ export default {
                     }
                 } else {
                     floatingWindow.addEventListener("touchstart", e => {
-                        // 禁止冒泡
-                        e.stopPropagation();
-                        // 组织默认事件
-                        e.preventDefault();
-                        
-                        // 只有长按超过500ms才允许拖动，避免点击也会触发拖拽
-                        setTimeout(() => {
-                            // 执行父组件自定义事件
-                            this.$emit('touchstart');
-                            floatingWindow.style.transition = 'none';
-                        }, 500);
+                        this.touchStartFunc(e);
                     });
 
                     floatingWindow.addEventListener("touchmove", e => {
@@ -157,12 +160,25 @@ export default {
                 }
             });
         },
+        touchStartFunc(e) {
+            // 禁止冒泡
+            e.stopPropagation();
+            // 组织默认事件
+            e.preventDefault();
+            
+            // 执行父组件自定义事件
+            this.$emit('start', this.left, this.top);
+            this.$refs.floatingWindow.style.transition = 'none';
+        },
         // touchmove
         touchmoveFunc(e) {
             // 禁止冒泡
             e.stopPropagation();
+
+            this.isMove = true;
+
             // 执行父组件自定义事件
-            this.$emit('touchmove');
+            this.$emit('move', this.left, this.top);
 
             // PC端 与 移动端 取值不同
             let left = this.left;
@@ -219,48 +235,55 @@ export default {
         touchendFunc(e) {
             // 禁止冒泡
             e.stopPropagation();
-            
-            this.$refs.floatingWindow.style.transition = 'all 0.01s';
 
-            // 自动贴边
-            if (this.whetherWeltIsAllowed) {
-                // 方式一：只要不超出屏幕，拖拽之后自动贴边
-                // 悬浮窗距离哪边近就自动贴边哪边
-                if (this.left > this.clientWidth / 2) {
-                    this.left = this.clientWidth - this.itemWidth - this.gapWidth;
-                } else {
-                    const right = this.clientWidth - this.left - this.itemWidth;
-                    if (this.left >= right) {
+            if (this.isMove) {
+                this.$refs.floatingWindow.style.transition = 'all 0.01s';
+
+                // 自动贴边
+                if (this.whetherWeltIsAllowed) {
+                    // 方式一：只要不超出屏幕，拖拽之后自动贴边
+                    // 悬浮窗距离哪边近就自动贴边哪边
+                    if (this.left > this.clientWidth / 2) {
                         this.left = this.clientWidth - this.itemWidth - this.gapWidth;
                     } else {
-                        this.left = this.gapWidth;
+                        const right = this.clientWidth - this.left - this.itemWidth;
+                        if (this.left >= right) {
+                            this.left = this.clientWidth - this.itemWidth - this.gapWidth;
+                        } else {
+                            this.left = this.gapWidth;
+                        }
                     }
-                }
 
-            } else {
-                // 方式二：只要不超出屏幕，拖拽到哪就停哪
-                // 悬浮窗拖动超过左侧屏幕处理
-                if (this.left <= 0) {
-                    this.left = this.gapWidth;
                 } else {
-                    // 悬浮窗拖动超过右侧屏幕处理
-                    if (this.left + this.itemWidth >= this.clientWidth) {
-                        this.left = this.clientWidth - this.itemWidth - this.gapWidth;
+                    // 方式二：只要不超出屏幕，拖拽到哪就停哪
+                    // 悬浮窗拖动超过左侧屏幕处理
+                    if (this.left <= 0) {
+                        this.left = this.gapWidth;
+                    } else {
+                        // 悬浮窗拖动超过右侧屏幕处理
+                        if (this.left + this.itemWidth >= this.clientWidth) {
+                            this.left = this.clientWidth - this.itemWidth - this.gapWidth;
+                        }
                     }
                 }
-            }
 
-            // 悬浮窗拖动覆盖页面导航栏或者超出屏幕顶部处理
-            if (this.top <= this.navHeight) {
-                this.top = this.navHeight + this.gapWidth;
+                // 悬浮窗拖动覆盖页面导航栏或者超出屏幕顶部处理
+                if (this.top <= this.navHeight) {
+                    this.top = this.navHeight + this.gapWidth;
+                } else {
+                    // 悬浮窗拖动超出屏幕底部处理
+                    const bottom = this.clientHeight - this.itemHeight - this.gapWidth;
+                    if (this.top >= bottom) this.top = bottom;
+                }
+
+                // 悬浮窗是否被移动过重置为：false
+                this.isMove = false;
+
+                // 执行父组件自定义事件
+                this.$emit('end', this.left, this.top);
             } else {
-                // 悬浮窗拖动超出屏幕底部处理
-                const bottom = this.clientHeight - this.itemHeight - this.gapWidth;
-                if (this.top >= bottom) this.top = bottom;
+                this.$emit('click-float');
             }
-
-            // 执行父组件自定义事件
-            this.$emit('touchend');
         }
     }
 }
@@ -268,7 +291,7 @@ export default {
 
 <style lang="less" scoped>
 .com-floating-window {
-    position: relative;
+    position: fixed;
     background-color: #fff;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
     color: #666666;

@@ -8,6 +8,7 @@
             :item-height="200"
             border-radius="4px"
             :whether-welt-is-allowed="false"
+            background-color="red"
         >
             <com-floating-window
                 :item-width="50"
@@ -15,8 +16,10 @@
                 border-radius="4px"
                 :whether-welt-is-allowed="false"
                 get-container=".float-window"
+                :z-index="999"
+                position="absolute"
+                background-color="green"
             >
-                1111111111111
             </com-floating-window>
         </com-floating-window>
     </div>
@@ -29,11 +32,6 @@ export default {
     trendsRoute: true,
     components: {
         comFloatingWindow
-    },
-    data() {
-        return {
-            
-        }
     }
 }
 </script>
