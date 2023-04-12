@@ -29,10 +29,26 @@ export default {
     },
     watch: {
         '$route': {
-            // eslint-disable-next-line no-unused-vars
             handler(nVal, oVal) {
                 // 从vuex获取缓存页面数据
-                this.includeList = this.$store.getters.keepAlive || [];
+                let keepAlive = this.$store.getters.keepAlive || [];
+
+                // 特殊处理
+                if ((oVal && !oVal.name && oVal.path === '/') || !oVal) {
+                    // 【进入】缓存页面之前，【添加】缓存
+                    if (nVal.name && nVal.meta.keepAlive) {
+                        // 检查缓存页面的name是否已经存储到keepAlive中
+                        const index = keepAlive.lastIndexOf(nVal.name);
+
+                        // 【添加】缓存
+                        if (index === -1) keepAlive.push(nVal.name);
+
+                        // 缓存页面数据存储到 Vuex
+                        this.$store.commit('keepAlive', keepAlive);
+                    }
+                }
+
+                this.includeList = keepAlive;
             },
             deep: true,
             immediate: true

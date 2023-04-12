@@ -1,0 +1,317 @@
+<!-- 
+    @created by 刘勇 2023-04-04 10:00:21
+    @Updated by 刘勇 2023-04-04 10:00:21
+    @description element-ui table表格
+-->
+
+
+<template>
+    <div class="demo-six">
+        <van-nav-bar title="JS拖拽排序" left-text="返回" left-arrow @click-left="onClickLeft" />
+
+        <div class="container">
+            <h4>常规布局</h4>
+            <ul class="column">
+                <li class="column-item">item1</li>
+                <li class="column-item">item2</li>
+                <li class="column-item">item3</li>
+                <li class="column-item">item4</li>
+                <li class="column-item">item5</li>
+                <li class="column-item">item6</li>
+                <li class="column-item">item7</li>
+                <li class="column-item">item8</li>
+                <li class="column-item">item9</li>
+                <li class="column-item">item10</li>
+            </ul>
+            <h4>Grid布局</h4>
+            <ul class="grid">
+                <li class="grid-item">item1</li>
+                <li class="grid-item">item2</li>
+                <li class="grid-item">item3</li>
+                <li class="grid-item">item4</li>
+                <li class="grid-item">item5</li>
+                <li class="grid-item">item6</li>
+                <li class="grid-item">item7</li>
+                <li class="grid-item">item8</li>
+                <li class="grid-item">item9</li>
+                <li class="grid-item">item10</li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: "demoSix",
+    trendsRoute: true,
+    data() {
+        return {
+
+        };
+    },
+    mounted() {
+        class Draggable {
+            constructor(options) {
+                this.parent = options.element; // 父级元素
+                this.cloneElementClassName = options.cloneElementClassName;
+                this.isPointerdown = false;
+                this.diff = {
+                    x: 0,
+                    y: 0
+                };
+                this.drag = {
+                    element: null,
+                    index: 0,
+                    lastIndex: 0
+                }; // 拖拽元素
+                this.drop = {
+                    element: null,
+                    index: 0,
+                    lastIndex: 0
+                }; // 释放元素
+                this.clone = {
+                    element: null,
+                    x: 0,
+                    y: 0
+                };
+                this.lastPointermove = {
+                    x: 0,
+                    y: 0
+                };
+                this.rectList = [];
+                this.init();
+            }
+            init() {
+                this.getRect();
+                this.bindEventListener();
+            }
+            // 获取元素位置信息
+            getRect() {
+                this.rectList.length = 0;
+                for (const item of this.parent.children) {
+                    this.rectList.push(item.getBoundingClientRect());
+                }
+            }
+            handlePointerdown(e) {
+                // 如果是鼠标点击，只响应左键
+                if (e.pointerType === 'mouse' && e.button !== 0) {
+                    return;
+                }
+                if (e.target === this.parent) {
+                    return;
+                }
+                this.isPointerdown = true;
+                this.parent.setPointerCapture(e.pointerId);
+                this.lastPointermove.x = e.clientX;
+                this.lastPointermove.y = e.clientY;
+                this.drag.element = e.target;
+                this.drag.element.classList.add('active');
+                this.clone.element = this.drag.element.cloneNode(true);
+                this.clone.element.className = this.cloneElementClassName;
+                this.clone.element.style.transition = 'none';
+                const i = [].indexOf.call(this.parent.children, this.drag.element);
+                this.clone.x = this.rectList[i].left;
+                this.clone.y = this.rectList[i].top;
+                this.drag.index = i;
+                this.drag.lastIndex = i;
+                this.clone.element.style.transform = 'translate3d(' + this.clone.x + 'px, ' + this.clone.y + 'px, 0)';
+                document.body.appendChild(this.clone.element);
+            }
+            handlePointermove(e) {
+                if (this.isPointerdown) {
+                    this.diff.x = e.clientX - this.lastPointermove.x;
+                    this.diff.y = e.clientY - this.lastPointermove.y;
+                    this.lastPointermove.x = e.clientX;
+                    this.lastPointermove.y = e.clientY;
+                    this.clone.x += this.diff.x;
+                    this.clone.y += this.diff.y;
+                    this.clone.element.style.transform = 'translate3d(' + this.clone.x + 'px, ' + this.clone.y + 'px, 0)';
+                    for (let i = 0; i < this.rectList.length; i++) {
+                        // 碰撞检测
+                        if (e.clientX > this.rectList[i].left && e.clientX < this.rectList[i].right &&
+                            e.clientY > this.rectList[i].top && e.clientY < this.rectList[i].bottom) {
+                            this.drop.element = this.parent.children[i];
+                            this.drop.lastIndex = i;
+                            if (this.drag.element !== this.drop.element) {
+                                if (this.drag.index < i) {
+                                    this.parent.insertBefore(this.drag.element, this.drop.element.nextElementSibling);
+                                    this.drop.index = i - 1;
+                                } else {
+                                    this.parent.insertBefore(this.drag.element, this.drop.element);
+                                    this.drop.index = i + 1;
+                                }
+                                this.drag.index = i;
+                                const dragRect = this.rectList[this.drag.index];
+                                const lastDragRect = this.rectList[this.drag.lastIndex];
+                                const dropRect = this.rectList[this.drop.index];
+                                const lastDropRect = this.rectList[this.drop.lastIndex];
+                                this.drag.lastIndex = i;
+                                this.drag.element.style.transition = 'none';
+                                this.drop.element.style.transition = 'none';
+                                this.drag.element.style.transform = 'translate3d(' + (lastDragRect.left - dragRect.left) + 'px, ' + (lastDragRect.top - dragRect.top) + 'px, 0)';
+                                this.drop.element.style.transform = 'translate3d(' + (lastDropRect.left - dropRect.left) + 'px, ' + (lastDropRect.top - dropRect.top) + 'px, 0)';
+                                this.drag.element.offsetLeft; // 触发重绘
+                                this.drag.element.style.transition = 'transform 150ms';
+                                this.drop.element.style.transition = 'transform 150ms';
+                                this.drag.element.style.transform = 'translate3d(0px, 0px, 0px)';
+                                this.drop.element.style.transform = 'translate3d(0px, 0px, 0px)';
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            handlePointerup() {
+                if (this.isPointerdown) {
+                    this.isPointerdown = false;
+                    this.drag.element.classList.remove('active');
+                    this.clone.element.remove();
+                }
+            }
+            handlePointercancel() {
+                if (this.isPointerdown) {
+                    this.isPointerdown = false;
+                    this.drag.element.classList.remove('active');
+                    this.clone.element.remove();
+                }
+            }
+            bindEventListener() {
+                this.handlePointerdown = this.handlePointerdown.bind(this);
+                this.handlePointermove = this.handlePointermove.bind(this);
+                this.handlePointerup = this.handlePointerup.bind(this);
+                this.handlePointercancel = this.handlePointercancel.bind(this);
+                this.getRect = this.getRect.bind(this);
+                this.parent.addEventListener('pointerdown', this.handlePointerdown);
+                this.parent.addEventListener('pointermove', this.handlePointermove);
+                this.parent.addEventListener('pointerup', this.handlePointerup);
+                this.parent.addEventListener('pointercancel', this.handlePointercancel);
+                window.addEventListener('scroll', this.getRect);
+                window.addEventListener('resize', this.getRect);
+                window.addEventListener('orientationchange', this.getRect);
+            }
+            unbindEventListener() {
+                this.parent.removeEventListener('pointerdown', this.handlePointerdown);
+                this.parent.removeEventListener('pointermove', this.handlePointermove);
+                this.parent.removeEventListener('pointerup', this.handlePointerup);
+                this.parent.removeEventListener('pointercancel', this.handlePointercancel);
+                window.removeEventListener('scroll', this.getRect);
+                window.removeEventListener('resize', this.getRect);
+                window.removeEventListener('orientationchange', this.getRect);
+            }
+        }
+        new Draggable({
+            element: document.querySelector('.column'),
+            cloneElementClassName: 'clone-column-item'
+        });
+        new Draggable({
+            element: document.querySelector('.grid'),
+            cloneElementClassName: 'clone-grid-item'
+        });
+    }
+};
+</script>
+
+<style lang="less" scoped>
+.demo-six {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 12px;
+    height: calc(100% - 44px);
+    overflow-y: auto;
+}
+
+h4 {
+    padding-bottom: 15px;
+}
+
+ul {
+    touch-action: none;
+    user-select: none;
+}
+
+.column {
+    margin-bottom: 15px;
+}
+
+.column-item {
+    height: 50px;
+    margin-bottom: -1px;
+    padding-left: 15px;
+    line-height: 48px;
+    background: #FFF;
+    border: 1px solid #d6d6d6;
+    list-style: none;
+}
+
+.column-item:first-child {
+    border-radius: 5px 5px 0 0;
+}
+
+.column-item:last-child {
+    border-radius: 0 0 5px 5px;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px -15px 0;
+}
+
+.grid-item {
+    width: 90px;
+    height: 90px;
+    line-height: 88px;
+    text-align: center;
+    margin: 0 15px 15px 0;
+    background: #FFF;
+    border: 1px solid #d6d6d6;
+    list-style: none;
+}
+
+.active {
+    background: #c8ebfb;
+}
+
+.clone-column-item {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: calc(100% - 30px);
+    max-width: 420px;
+    height: 50px;
+    padding-left: 15px;
+    line-height: 48px;
+    background: #FFF;
+    border: 1px solid #d6d6d6;
+    opacity: 0.8;
+    list-style: none;
+}
+
+.clone-grid-item {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: 90px;
+    height: 90px;
+    line-height: 88px;
+    text-align: center;
+    background: #FFF;
+    border: 1px solid #d6d6d6;
+    opacity: 0.8;
+    list-style: none;
+}
+</style>

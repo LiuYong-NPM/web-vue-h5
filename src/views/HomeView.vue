@@ -2,7 +2,12 @@
     <div class="home-view">
         <van-nav-bar title="前端案例" fixed />
 
-        <van-cell v-for="(item, index) in dataList" :key="index" is-link :title="item.title" @click.stop="jumpPage(item.name)" />
+        <van-cell
+            v-for="(item, index) in dataList"
+            :key="index" is-link
+            :title="item.title"
+            @click.stop="jumpPage(item.name)"
+        />
     </div>
 </template>
 
@@ -20,18 +25,13 @@ export default {
                 { title: '组件示例：echart折柱混合', name: 'demoThree' },
                 { title: '组件示例：悬浮窗', name: 'demoFour' },
                 { title: 'html2canvas', name: 'html2Canvas' },
-                { title: 'JavaScript中对象（Object）的方法', name: 'demoFive' },
+                { title: 'JS中对象（Object）的方法', name: 'demoFive' },
+                { title: 'JS拖拽排序', name: 'demoSix' },
+                { title: '测试', name: 'demoSeven' }
             ]
         }
     },
     methods: {
-        formatDate(date) {
-            return `${date.getMonth() + 1}/${date.getDate()}`;
-        },
-        onConfirm(date) {
-            this.show = false;
-            this.date = this.formatDate(date);
-        },
         jumpPage(name) {
             this.$router.push({ name });
         }
