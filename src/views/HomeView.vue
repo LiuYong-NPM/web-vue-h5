@@ -27,7 +27,8 @@ export default {
                 { title: 'html2canvas', name: 'html2Canvas' },
                 { title: 'JS中对象（Object）的方法', name: 'demoFive' },
                 { title: 'JS拖拽排序', name: 'demoSix' },
-                { title: '测试', name: 'demoSeven' }
+                { title: '高德地图', name: 'demoSeven' },
+                { title: '调起键盘', name: 'demoEight' }
             ]
         }
     },
