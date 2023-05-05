@@ -22,6 +22,16 @@ Vue.use(VueAxios, axios);
 import VConsole from 'vconsole';
 new VConsole();
 
+// vue-video-player视频播放器
+import VueVideoPlayer from 'vue-video-player';
+window.videojs = VueVideoPlayer.videojs;
+require('vue-video-player/src/custom-theme.css');
+require('video.js/dist/video-js.min.css');
+require('video.js/dist/lang/zh-CN.js');
+import 'video.js/dist/video-js.css';
+import 'video.js/dist/video.min.js';
+Vue.use(VueVideoPlayer);
+
 // 引入 vant-ui
 import vant from 'vant';
 import 'vant/lib/index.css';

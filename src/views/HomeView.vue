@@ -28,7 +28,8 @@ export default {
                 { title: 'JS中对象（Object）的方法', name: 'demoFive' },
                 { title: 'JS拖拽排序', name: 'demoSix' },
                 { title: '高德地图', name: 'demoSeven' },
-                { title: '调起键盘', name: 'demoEight' }
+                { title: '播放视频：vue-video-player', name: 'demoEight' },
+                { title: '播放视频：video.js', name: 'demoNine' }
             ]
         }
     },
