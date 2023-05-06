@@ -1,7 +1,7 @@
 <!-- 
-    @created by 刘勇 2023-04-14 17:18:08
-    @Updated by 刘勇 2023-04-14 17:18:08
-    @description 调起键盘
+    @created by 刘勇 2023-05-06 10:18:08
+    @Updated by 刘勇 2023-05-06 10:18:08
+    @description 播放视频：vue-video-player
 -->
 
 <template>
