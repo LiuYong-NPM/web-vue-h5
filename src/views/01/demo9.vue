@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div class="demo-nine">
+  <div class="demo-page demo-nine">
     <van-nav-bar
       title="播放视频"
       left-text="返回"
@@ -57,14 +57,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.demo-nine {
-  position: relative;
-  height: 100%;
-  overflow: hidden;
-
-  .video-js {
-    width: 100%;
-    height: 210px;
-  }
+.video-js {
+  width: 100%;
+  height: 210px;
 }
 </style>

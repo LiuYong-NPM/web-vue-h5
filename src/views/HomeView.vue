@@ -29,7 +29,10 @@ export default {
                 { title: 'JS拖拽排序', name: 'demoSix' },
                 { title: '高德地图', name: 'demoSeven' },
                 { title: '播放视频：vue-video-player', name: 'demoEight' },
-                { title: '播放视频：video.js', name: 'demoNine' }
+                { title: '播放视频：video.js', name: 'demoNine' },
+                { title: '非封闭式环形进度条', name: 'demoTen' },
+                { title: 'Vue表格实现固定表头和首列', name: 'demoEleven' },
+                { title: 'demoTwelve', name: 'demoTwelve' }
             ]
         }
     },

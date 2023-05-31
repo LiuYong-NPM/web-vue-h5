@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div class="demo-eight">
+  <div class="demo-page demo-eight">
     <van-nav-bar
       title="播放视频：vue-video-player"
       left-text="返回"
@@ -62,43 +62,44 @@ export default {
         width: document.documentElement.clientWidth,
         // 允许覆盖Video.js无法播放媒体源时显示的默认信息
         notSupportedMessage: "此视频暂无法播放，请稍后再试",
+        // controls: true,
         controlBar: {
           timeDivider: true,
           durationDisplay: true,
           remainingTimeDisplay: true,
           fullscreenToggle: true, // 全屏按钮
-        }
+        },
       },
     };
   },
   computed: {
     player() {
-        return this.$refs.videoPlayer.player;
-    }
+      return this.$refs.videoPlayer.player;
+    },
   },
   methods: {
     onPlayerPlay() {
-        // console.log('this.$refs.videoPlayer.player>>>>', this.$refs.videoPlayer.player);
+      // console.log('this.$refs.videoPlayer.player>>>>', this.$refs.videoPlayer.player);
     },
     onPlayerPlaying(player) {
-        if (!player.isFullscreen()) {
-            // 开启全屏
-            this.$refs.videoPlayer.player.requestFullscreen();
-            this.$refs.videoPlayer.player.isFullscreen(true);
+      if (!player.isFullscreen()) {
+        // 开启全屏
+        this.$refs.videoPlayer.player.requestFullscreen();
+        this.$refs.videoPlayer.player.isFullscreen(true);
 
-            // 退出全屏
-            // this.$refs.videoPlayer.player.exitFullscreen();
-            // this.$refs.videoPlayer.player.isFullscreen(false);
-        }
+        // 退出全屏
+        // this.$refs.videoPlayer.player.exitFullscreen();
+        // this.$refs.videoPlayer.player.isFullscreen(false);
+      }
     },
     onPlayerTimeupdate(player) {
-        // 退出全屏暂停播放视频
-        if (!player.isFullscreen_) {
-            this.$refs.videoPlayer.player.pause(); // 暂停
-            // this.$refs.videoPlayer.player.play(); // 播放
-        }
-    }
-  }
+      // 退出全屏暂停播放视频
+      if (!player.isFullscreen_) {
+        this.$refs.videoPlayer.player.pause(); // 暂停
+        // this.$refs.videoPlayer.player.play(); // 播放
+      }
+    },
+  },
 };
 </script>
 
@@ -121,6 +122,16 @@ export default {
     .vjs-icon-placeholder:before {
       content: "\f101";
       top: 10%;
+    }
+  }
+
+  &.vjs-has-started {
+    &.vjs-user-inactive {
+      &.vjs-paused {
+        .vjs-control-bar {
+          opacity: 0;
+        }
+      }
     }
   }
 }
