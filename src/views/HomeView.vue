@@ -1,51 +1,62 @@
 <template>
-    <div class="home-view">
-        <van-nav-bar title="前端案例" fixed />
+  <div class="home-view">
+    <van-nav-bar title="前端案例" />
 
-        <van-cell
-            v-for="(item, index) in dataList"
-            :key="index" is-link
-            :title="item.title"
-            @click.stop="jumpPage(item.name)"
-        />
+    <div class="home-view-content">
+      <van-cell
+        v-for="(item, index) in dataList"
+        :key="index"
+        is-link
+        :title="item.title"
+        @click.stop="jumpPage(item.name)"
+      />
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'HomeView',
-    trendsRoute: true,
-    data() {
-        return {
-            show: false,
-            date: '',
-            dataList: [
-                { title: '组件示例：选项卡', name: 'demoOne' },
-                { title: '组件示例：选择器', name: 'demoTwo' },
-                { title: '组件示例：echart折柱混合', name: 'demoThree' },
-                { title: '组件示例：悬浮窗', name: 'demoFour' },
-                { title: 'html2canvas', name: 'html2Canvas' },
-                { title: 'JS中对象（Object）的方法', name: 'demoFive' },
-                { title: 'JS拖拽排序', name: 'demoSix' },
-                { title: '高德地图', name: 'demoSeven' },
-                { title: '播放视频：vue-video-player', name: 'demoEight' },
-                { title: '播放视频：video.js', name: 'demoNine' },
-                { title: '非封闭式环形进度条', name: 'demoTen' },
-                { title: 'Vue表格实现固定表头和首列', name: 'demoEleven' },
-                { title: 'demoTwelve', name: 'demoTwelve' }
-            ]
-        }
+  name: "HomeView",
+  trendsRoute: true,
+  data() {
+    return {
+      show: false,
+      date: "",
+      dataList: [
+        { title: "组件示例：选项卡", name: "demoOne" },
+        { title: "组件示例：选择器", name: "demoTwo" },
+        { title: "组件示例：echart折柱混合", name: "demoThree" },
+        { title: "组件示例：悬浮窗", name: "demoFour" },
+        { title: "html2canvas", name: "html2Canvas" },
+        { title: "JS中对象（Object）的方法", name: "demoFive" },
+        { title: "JS拖拽排序", name: "demoSix" },
+        { title: "高德地图", name: "demoSeven" },
+        { title: "播放视频：vue-video-player", name: "demoEight" },
+        { title: "播放视频：video.js", name: "demoNine" },
+        { title: "非封闭式环形进度条", name: "demoTen" },
+        { title: "Vue表格实现固定表头和首列1", name: "demoEleven" },
+        { title: "Vue表格实现固定表头和首列2", name: "demoTwelve" },
+      ],
+    };
+  },
+  methods: {
+    jumpPage(name) {
+      this.$router.push({ name });
     },
-    methods: {
-        jumpPage(name) {
-            this.$router.push({ name });
-        }
-    }
-}
+  },
+};
 </script>
 
 <style scoped>
 .home-view {
-    padding-top: 44px;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-view-content {
+    flex: 1;
+    overflow: auto;
 }
 </style>

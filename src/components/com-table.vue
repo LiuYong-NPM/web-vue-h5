@@ -1,47 +1,35 @@
 <!--
-    @created by 刘勇 2023-05-25 19:35:37 星期四
-    @Updated by 刘勇 2023-05-25 19:35:37 星期四
-    @description Vue表格实现固定表头和首列
+    @created by 刘勇 2023-05-31 22:01:06 星期三
+    @Updated by 刘勇 2023-05-31 22:01:06 星期三
+    @description table列表
 -->
 
 <template>
-  <div class="demo-page">
-    <van-nav-bar
-      title="Vue表格1"
-      left-text="返回"
-      left-arrow
-      @click-left="onClickLeft"
-    />
-
-    <div class="tables">
-      <div class="tits">
-        <div class="titsLeft">
-          <p>左上角</p>
-        </div>
-        <div class="titsRight" ref="titsRight">
-          <div>
-            <p v-for="(item, i) in 50" :key="i">表头{{ i + 1 }}</p>
-          </div>
+  <div class="tables">
+    <div class="tits">
+      <div class="titsLeft">
+        <p>左上角</p>
+      </div>
+      <div class="titsRight" ref="titsRight">
+        <div>
+          <p v-for="(item, i) in 50" :key="i">表头{{ i + 1 }}</p>
         </div>
       </div>
+    </div>
 
-      <div
-        class="tbody"
-        @scroll="scrollEvent($event)"
-        ref="tbodyRight"
-        @touchstart="touchstart"
-        @touchmove="touchmove"
-        @touchend="touchend"
-      >
-        <div class="tbodyLeft" ref="tbodyLeft">
-          <div ref="tbodyLeftItem">
-            <p v-for="(item, i) in 50" :key="i">首列{{ i + 1 }}</p>
-          </div>
+    <div
+      class="tbody"
+      @scroll="scrollEvent($event)"
+      ref="tbodyRight"
+    >
+      <div class="tbodyLeft" ref="tbodyLeft">
+        <div ref="tbodyLeftItem">
+          <p v-for="(item, i) in 50" :key="i">首列{{ i + 1 }}</p>
         </div>
-        <div class="tbodyRight">
-          <div v-for="(item, i) in 50" :key="i" class="row">
-            <p v-for="(item1, i1) in 50" :key="i1">{{ i + 1 }}-{{ i1 + 1 }}</p>
-          </div>
+      </div>
+      <div class="tbodyRight">
+        <div v-for="(item, i) in 50" :key="i" class="row">
+          <p v-for="(item1, i1) in 50" :key="i1">{{ i + 1 }}-{{ i1 + 1 }}</p>
         </div>
       </div>
     </div>
@@ -50,8 +38,7 @@
 
 <script>
 export default {
-  name: "demoEleven",
-  trendsRoute: true,
+  name: "commonTable",
   data() {
     return {
       /* 移动所需参数 */
@@ -209,7 +196,7 @@ p {
   }
   .tbodyRight {
     white-space: nowrap;
-    background-color: none;
+    background-color: unset;
     display: flex;
     flex-direction: column;
     .row {
