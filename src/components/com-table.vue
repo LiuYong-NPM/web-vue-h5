@@ -17,11 +17,7 @@
       </div>
     </div>
 
-    <div
-      class="tbody"
-      @scroll="scrollEvent($event)"
-      ref="tbodyRight"
-    >
+    <div class="tbody" @scroll="scrollEvent($event)" ref="tbodyRight">
       <div class="tbodyLeft" ref="tbodyLeft">
         <div ref="tbodyLeftItem">
           <p v-for="(item, i) in 50" :key="i">首列{{ i + 1 }}</p>
@@ -123,6 +119,7 @@ p {
 }
 .tables {
   width: 100%; //自定义表格整体宽度
+  flex: 1;
   font-size: 12px;
   overflow: hidden;
   box-sizing: border-box;
@@ -130,8 +127,9 @@ p {
   flex-direction: column;
   position: relative;
   .tbody {
-    height: 400px; //自定义表格内容高度
+    // height: 400px; //自定义表格内容高度
     overflow: auto;
+    flex: 1;
   }
   > div {
     display: flex;

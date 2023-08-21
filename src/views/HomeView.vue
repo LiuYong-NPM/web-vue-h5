@@ -36,6 +36,7 @@ export default {
         { title: "非封闭式环形进度条", name: "demoTen" },
         { title: "Vue表格实现固定表头和首列1", name: "demoEleven" },
         { title: "Vue表格实现固定表头和首列2", name: "demoTwelve" },
+        { title: "在线预览PDF", name: "demoThirteen" },
       ],
     };
   },

@@ -7,35 +7,29 @@
 <template>
   <div class="demo-page">
     <van-nav-bar
-      title="Vue表格2"
+      title="在线预览PDF"
       left-text="返回"
       left-arrow
       @click-left="onClickLeft"
     />
-    <common-table />
-
-    <van-icon name="expand" size="40" class="expend-img" @click="expendTable" />
+    <div class="demo-page-div">
+      <!-- '#toolbar=0'：iframe隐藏头部的toolbar -->
+      <iframe width="100%" height="100%" :src="pdfUrl + '#toolbar=0'"></iframe>
+    </div>
   </div>
 </template>
 
 <script>
-import commonTable from "@/components/com-table.vue";
 export default {
-  name: "demoTwelve",
+  name: "demoThirteen",
   trendsRoute: true,
-  components: {
-    commonTable,
-  },
+  components: {},
   data() {
-    return {};
-  },
-  created() {},
-  mounted() {},
-  methods: {
-    expendTable() {
-        this.$toast('旋转表格')
-    }
-  },
+    return {
+      pdfUrl:
+        "https://qxb-img-osscache.qixin.com/limited_consumption/b901e1e31abd1f64527254ac6a35303c.pdf",
+    };
+  }
 };
 </script>
 
@@ -43,11 +37,10 @@ export default {
 .demo-page {
   display: flex;
   flex-direction: column;
-}
 
-.expend-img {
-  position: absolute;
-  right: 12px;
-  bottom: 30px;
+  .demo-page-div {
+    flex: 1;
+    overflow: auto;
+  }
 }
 </style>
