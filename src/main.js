@@ -50,6 +50,9 @@ Vue.prototype.$loading = Loading;
 
 Vue.config.productionTip = false;
 
+import moment from 'moment';
+Vue.prototype.$moment = moment;
+
 new Vue({
     el: defaultRootId,
     router,

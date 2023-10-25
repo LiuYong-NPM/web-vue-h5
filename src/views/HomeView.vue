@@ -1,6 +1,6 @@
 <template>
   <div class="home-view">
-    <van-nav-bar title="前端案例" />
+    <van-nav-bar title="好好学习，天天向上" />
 
     <div class="home-view-content">
       <van-cell
@@ -37,6 +37,10 @@ export default {
         { title: "Vue表格实现固定表头和首列1", name: "demoEleven" },
         { title: "Vue表格实现固定表头和首列2", name: "demoTwelve" },
         { title: "在线预览PDF", name: "demoThirteen" },
+        { title: "vue-calendar-component日历组件", name: "demoFourteen" },
+        { title: "拖拽排序", name: "demoFifteen" },
+        { title: "漩涡二维数组", name: "demoSixteen" },
+        { title: "在线预览文件", name: "demoSeventeen" },
       ],
     };
   },
@@ -57,7 +61,7 @@ export default {
 }
 
 .home-view-content {
-    flex: 1;
-    overflow: auto;
+  flex: 1;
+  overflow: auto;
 }
 </style>
