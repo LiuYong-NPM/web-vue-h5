@@ -37,9 +37,11 @@ export default {
 
             let option = {
                 grid: {
-                    x: 40,
-                    x2: 40,
-                    y2: 20
+                    x: 4,
+                    y: 20,
+                    x2: 4,
+                    y2: 0,
+                    containLabel: true // 确保左右两侧的刻度不会超过屏幕
                 },
                 tooltip: {
                     trigger: 'axis',
