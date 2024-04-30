@@ -94,8 +94,8 @@ export default {
           // 配置
           {
             enableHighAccuracy: true, // 是否获取高精度定位
-            maximumAge: 30000, // 最长可接受的定位返回时间
-            timeout: 27000, // 等待请求的时间
+            maximumAge: 3000, // 最长可接受的定位返回时间
+            timeout: 2000, // 等待请求的时间
           }
         );
       } else {

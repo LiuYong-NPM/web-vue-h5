@@ -1,11 +1,18 @@
 <!--
     @created by 刘勇 2023-08-24 21:09:17 星期四
     @Updated by 刘勇 2023-08-24 21:09:17 星期四
-    @description 页面描述
+    @description vue-calendar-component日历组件
 -->
 
 <template>
   <div class="demo-page">
+    <van-nav-bar
+      title="日历组件"
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+    />
+
     <Calendar
       ref="Calendar"
       :markDateMore="arr"
@@ -64,11 +71,11 @@ export default {
       console.log("左右点击切换月份", data); //左右点击切换月份
     },
     ChoseMonthChock() {
-        // 切换到指定日期
+      // 切换到指定日期
       this.$refs.Calendar.ChoseMonth("2023-08-24"); // 2023-08-24
 
-    //   切换到月份
-    //   this.$refs.Calendar.ChoseMonth("2023-06", false); // 2023-06
+      //   切换到月份
+      //   this.$refs.Calendar.ChoseMonth("2023-06", false); // 2023-06
     },
   },
 };
