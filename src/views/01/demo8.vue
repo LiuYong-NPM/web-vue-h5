@@ -52,8 +52,7 @@ export default {
         sources: [
           {
             type: "video/mp4",
-            src: require('../../assets/video/06.29期.mp4'),
-            // src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
+            src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
             // src: "http://12.99.64.144/cbanker/sit/smartWeb/introduction/video/许巍-曾经的你(2015此时此刻演唱会Live).mp4"
           },
         ],

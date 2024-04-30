@@ -7,14 +7,24 @@
 <template>
   <div class="demo-page">
     <van-nav-bar
-      title="发音"
+      title="语音"
       left-text="返回"
       left-arrow
       @click-left="onClickLeft"
     />
+    <div class="file-input">
+      <input type="file" id="voiceFile" />
+    </div>
+    <div class="voice-play">
+      <textarea id="voiceInput" placeholder="请输入文字" rows="20" cols="50"> </textarea>
+    </div>
 
-    <input id="voiceInput" type="text" />
-    <button id="voiceBtn">发音</button>
+    <div class="btn-area">
+      <button class="btn" @click="speak">开始播放</button>
+      <button class="btn" @click="cancel">取消播放</button>
+      <button class="btn" @click="paused">暂停播放</button>
+      <button class="btn" @click="restart">重新播放</button>
+    </div>
   </div>
 </template>
 
@@ -23,7 +33,11 @@ export default {
   name: "demoSeventeen",
   trendsRoute: true,
   data() {
-    return {};
+    return {
+      speechVoice: null,
+      voiceFile: null,
+      voiceInput: null,
+    };
   },
   created() {},
   mounted() {
@@ -32,20 +46,66 @@ export default {
      * @Updated by 刘勇 2023-10-19 22:21:44
      * @description WEB API: SpeechSynthesisUtterance
      */
-    let voiceInput = document.querySelector("#voiceInput");
-    let voiceBtn = document.querySelector("#voiceBtn");
-    voiceBtn.onclick = function () {
-      const voiceVal = voiceInput.value;
-      const speechVoice = new SpeechSynthesisUtterance(voiceVal);
-      window.speechSynthesis.speak(speechVoice);
-    };
+    const _that = this;
+    _that.voiceFile = document.querySelector("#voiceFile");
+    _that.voiceInput = document.querySelector("#voiceInput");
+
+    _that.voiceFile.addEventListener("change", function (event) {
+      console.log("event>>>", event);
+      const files = event.target.files;
+      let file = files[0]; // 获取选择的文件
+      let reader = new FileReader(); // 创建新的 FileReader 实例
+
+      reader.onload = function (evt) {
+        console.log("evt>>>", evt);
+        var fileContent = evt.target.result; // 获取文件内容
+        _that.voiceInput.value = fileContent; // 在页面上显示文件内容
+      };
+
+      reader.readAsText(file); // 以文本格式读取文件内容
+    });
   },
-  methods: {},
+  methods: {
+    speak() {
+      if (!window.speechSynthesis.speaking) {
+        const voiceVal = this.voiceInput.value;
+        this.speechVoice = new SpeechSynthesisUtterance(voiceVal);
+        window.speechSynthesis.speak(this.speechVoice);
+      }
+    },
+    cancel() {
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+      }
+    },
+    paused() {
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.pause();
+      }
+    },
+    restart() {
+      if (this.speechVoice && window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      } else {
+        this.speak();
+      }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.demo17 {
-  position: relative;
+.demo-page {
+  .voice-play,
+  .btn-area {
+    margin: 100px auto;
+    text-align: center;
+  }
+
+  .btn-area {
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-evenly;
+  }  
 }
 </style>

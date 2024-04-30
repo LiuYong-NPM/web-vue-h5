@@ -3,13 +3,16 @@
     <van-nav-bar title="好好学习，天天向上" />
 
     <div class="home-view-content">
-      <van-cell
-        v-for="(item, index) in dataList"
-        :key="index"
-        is-link
-        :title="item.title"
-        @click.stop="jumpPage(item.name)"
-      />
+      <van-grid :column-num="4">
+        <van-grid-item
+          v-for="(item, index) in dataList"
+          :text="item.title"
+          :key="index"
+          is-link
+          icon="comment-o"
+          @click.stop="jumpPage(item.name)"
+        />
+      </van-grid>
     </div>
   </div>
 </template>
@@ -23,13 +26,14 @@ export default {
       show: false,
       date: "",
       dataList: [
-        { title: "组件示例：选项卡", name: "demoOne" },
-        { title: "组件示例：选择器", name: "demoTwo" },
-        { title: "组件示例：echart折柱混合", name: "demoThree" },
-        { title: "组件示例：悬浮窗", name: "demoFour" },
+        { title: "选项卡", name: "demoOne" },
+        { title: "选择器", name: "demoTwo" },
+        { title: "echart折柱混合", name: "demoThree" },
+        { title: "悬浮窗", name: "demoFour" },
         { title: "html2canvas", name: "html2Canvas" },
         { title: "JS中对象（Object）的方法", name: "demoFive" },
-        { title: "JS拖拽排序", name: "demoSix" },
+        { title: "JS拖拽排序1", name: "demoSix" },
+        { title: "JS拖拽排序2", name: "demoFifteen" },
         { title: "高德地图", name: "demoSeven" },
         { title: "播放视频：vue-video-player", name: "demoEight" },
         { title: "播放视频：video.js", name: "demoNine" },
@@ -38,9 +42,11 @@ export default {
         { title: "Vue表格实现固定表头和首列2", name: "demoTwelve" },
         { title: "在线预览PDF", name: "demoThirteen" },
         { title: "vue-calendar-component日历组件", name: "demoFourteen" },
-        { title: "拖拽排序", name: "demoFifteen" },
         { title: "漩涡二维数组", name: "demoSixteen" },
-        { title: "在线预览文件", name: "demoSeventeen" },
+        { title: "语音", name: "demoSeventeen" },
+        { title: "使用v-html时防XSS攻击", name: "demoEighteen" },
+        { title: "vue2导出Excel表格", name: "demoNineteen" },
+        { title: "省市区树节点", name: "demoTwenty" },
       ],
     };
   },

@@ -307,3 +307,74 @@ export const checkOrgCardNumber = (value) => {
     }
   }
 };
+
+/**
+ * JS全角转半角
+ * @created by 刘勇 2023-10-31 08:43:37
+ * @Updated by 刘勇 2023-10-31 08:43:37
+ * @description
+ *   JS全角转半角是指将字符串中的全角字符转换为半角字符。
+ *   全角字符是指占用两个字符位置的字符，例如中文字符、日文字符等，而半角字符则只占用一个字符位置，例如英文字符、数字等。
+ *   空格字符：全角空格为12288，半角空格为32
+ *   其他字符：半角(33-126)，全角(65281-65374)；对应关系是：均相差65248
+ */
+export const toHalf = (str) => {
+  let result = "";
+  for (let i = 0; i < str.length; i++) {
+    // 获取指定位置字符的Unicode编码
+    let c = str.charCodeAt(i);
+    if (c === 12288) {
+      result += String.fromCharCode(32); // 将Unicode编码转化为字符
+    } else if (c >= 65281 && c <= 65374) {
+      result += String.fromCharCode(c - 65248);
+    } else {
+      result += str.charAt(i); // 获取指定位置的字符
+    }
+  }
+  return result;
+};
+
+/**
+ * JS 半角转全角
+ * 'Hello World' => 'Ｈｅｌｌｏ Ｗｏｒｌｄ'
+ * @created by 刘勇 2023-10-31 08:50:27
+ * @Updated by 刘勇 2023-10-31 08:50:27
+ * @description
+ *   JS全角转半角是指将字符串中的全角字符转换为半角字符。
+ *   全角字符是指占用两个字符位置的字符，例如中文字符、日文字符等，而半角字符则只占用一个字符位置，例如英文字符、数字等。
+ *   空格字符：全角空格为12288，半角空格为32
+ *   其他字符：半角(33-126)，全角(65281-65374)；对应关系是：均相差65248
+ */
+export const toDBC = (str) => {
+  let result = "";
+  for (let i = 0; i < str.length; i++) {
+    let c = str.charCodeAt(i); // 获取指定位置字符的Unicode编码
+    if (c === 32) {
+      result += String.fromCharCode(12288); // 将Unicode编码转化为字符
+    } else if (c < 127) {
+      result += String.fromCharCode(c + 65248);
+    } else {
+      result += str.charAt(i); // 获取指定位置的字符
+    }
+  }
+  return result;
+};
+
+/**
+ * 关键字高亮
+ * @param {String} str 文本内容
+ * @param {String} keywords 关键字
+ * @param {String} color 高亮颜色
+ * @returns
+ */
+export const searchValHighLight = (str, keywords, color = "#ff7538") => {
+  if (str === void 0 || str === null || str === "") {
+    return "";
+  }
+  str = str + "";
+  str = str.replace(
+    new RegExp(`${keywords}`, "igm"),
+    `<font color="${color}">${keywords}</font>`
+  );
+  return str;
+};
