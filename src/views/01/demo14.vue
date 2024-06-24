@@ -81,43 +81,43 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .demo-page {
   position: relative;
 }
 
 /* 重写css部分 start */
-/deep/ .wh_content_item {
+::v-deep .wh_content_item {
   color: black;
 }
 
-/deep/ .wh_top_changge li {
+::v-deep .wh_top_changge li {
   color: black;
 }
 
-/deep/ .wh_jiantou1 {
+::v-deep .wh_jiantou1 {
   border-top: 2px solid #030303;
   border-left: 2px solid #030303;
 }
 
-/deep/ .wh_jiantou2 {
+::v-deep .wh_jiantou2 {
   border-top: 2px solid #030303;
   border-right: 2px solid #030303;
 }
 
-/deep/ .wh_jiantou1 {
+::v-deep .wh_jiantou1 {
   background-color: white;
 }
 
-/deep/ .wh_content_all {
+::v-deep .wh_content_all {
   background-color: #ffffff;
 }
 
-/deep/ .wh_content_item .wh_isToday {
+::v-deep .wh_content_item .wh_isToday {
   background-color: #2b85e4;
 }
 
-/deep/ .wh_content_item .wh_chose_day {
+::v-deep .wh_content_item .wh_chose_day {
   background-color: #9acafc;
 }
 
@@ -141,11 +141,11 @@ h3 {
   margin-top: 20px;
 }
 
-.wh_container >>> .mark1 {
+.wh_container > .mark1 {
   background-color: orange;
 }
 
-.wh_container >>> .mark2 {
+.wh_container > .mark2 {
   background-color: blue;
 }
 

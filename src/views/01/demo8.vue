@@ -110,7 +110,7 @@ export default {
   overflow: hidden;
 }
 
-/deep/ .video-js {
+::v-deep .video-js {
   .vjs-big-play-button {
     width: 100px;
     height: 60px;

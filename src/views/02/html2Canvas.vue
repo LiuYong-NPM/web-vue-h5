@@ -370,7 +370,7 @@ export default {
     height: 100%;
     overflow: auto;
     
-    /deep/ .van-nav-bar {
+    ::v-deep .van-nav-bar {
         width: 375px;
     }
 

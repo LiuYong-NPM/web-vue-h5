@@ -91,7 +91,7 @@ export default {
 .demo-page {
   position: relative;
 
-  /deep/ .btn-default {
+  ::v-deep .btn-default {
     height: 50px;
     background: #eee;
     display: flex;
