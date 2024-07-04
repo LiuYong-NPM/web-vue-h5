@@ -13,7 +13,7 @@
       @click-left="onClickLeft"
     />
     <input type="text" v-model="keyWord" />
-    <div v-html="keyWordHeightLight('<script>alert(/xss/)</script>', keyWord)"></div>
+    <div v-dompurify-html="keyWordHeightLight('<script>alert(/xss/)</script>', keyWord)"></div>
   </div>
 </template>
 

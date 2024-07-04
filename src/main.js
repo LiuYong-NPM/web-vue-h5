@@ -50,6 +50,9 @@ Vue.prototype.$moment = moment;
 import VueDOMPurifyHTML from "vue-dompurify-html";
 Vue.use(VueDOMPurifyHTML);
 
+import requestApi from "@/utils/request";
+Vue.prototype.$request = requestApi;
+
 new Vue({
   el: defaultRootId,
   router,
