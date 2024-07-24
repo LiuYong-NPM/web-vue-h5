@@ -48,6 +48,7 @@ export default {
         { title: "vue2导出Excel表格", name: "demoNineteen" },
         { title: "省市区树节点", name: "demoTwenty" },
         { title: "多个request只打开和关闭一个等待动画", name: "twentyOne" },
+        { title: "js 数值计算", name: "twentyTwo" },
       ],
     };
   },
