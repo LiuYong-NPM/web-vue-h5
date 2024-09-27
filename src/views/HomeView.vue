@@ -49,6 +49,7 @@ export default {
         { title: "省市区树节点", name: "demoTwenty" },
         { title: "多个request只打开和关闭一个等待动画", name: "twentyOne" },
         { title: "js 数值计算", name: "twentyTwo" },
+        { title: "vue分段进度条", name: "twentyThree" },
       ],
     };
   },
